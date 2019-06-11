@@ -2,58 +2,57 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
     public static float leftLimit;
     public static float rightLimit;
     private Vector3 screenBounds;
     private GameObject playerCamera;
     private GameObject player;
+    private GameObject playerController;
 
     public static Vector3 playerPosition;
+    private float larghezzaDick;
 
 
-    public static GameManager instance; //Dichiaro un'istanza del GamaManager
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(transform.root.gameObject);
-        }
-        else
-        {
-            Destroy(transform.root.gameObject);
-            return;
-        }
 
-        player = GameObject.Find("Player");
+
+        player = GameObject.Find("Dick");
+        playerController = GameObject.Find("Player");
         playerCamera = GameObject.Find("PlayerCamera");
+        larghezzaDick = GameObject.Find("Larghezza").GetComponent<Renderer>().bounds.size.x;
 
 
 
 
         this.adaptToScreen();
 
+        //leftLimit = -(player.GetComponent<Renderer>().bounds.size.x * 3);
+        //rightLimit = screenBounds.x + (player.GetComponent<Renderer>().bounds.size.x * 3);
 
-        //leftLimit = 0;
-        //rightLimit = screenBounds.x + player.GetComponent<Renderer>().bounds.size.x;
-        leftLimit = -(player.GetComponent<Renderer>().bounds.size.x * 3);
-        rightLimit = screenBounds.x + (player.GetComponent<Renderer>().bounds.size.x * 3);
 
+
+        leftLimit = -(larghezzaDick);
+        rightLimit = screenBounds.x + (larghezzaDick);
+
+        print(leftLimit);
+        print(rightLimit);
+        print(screenBounds);
 
     }
 
     void adaptToScreen()
     {
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, playerCamera.transform.position.y, playerCamera.transform.position.z));
-        //screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, player.transform.position.y, player.transform.position.z));
+        //screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, playerCamera.transform.position.y, playerCamera.transform.position.z));
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, playerController.transform.position.y, playerController.transform.position.z));
         Vector3 v = screenBounds;
         v.x = screenBounds.x / 2;
         v.y = 0;
-        player.transform.position = v;
-        playerPosition = player.transform.position;
+        playerController.transform.position = v;
+        playerPosition = playerController.transform.position;
 
 
     }
@@ -65,31 +64,42 @@ public class GameManager : MonoBehaviour
         playerCamera.transform.position = tempPos;
     }
 
-    public static void Colpito(GameObject o)
+    public void Colpito(GameObject o)
     {
 
+       
+            o.SetActive(false);
+            EnemiesManager.Instance.nemiciAttivi.Remove(o);
+            EnemiesManager.Instance.nemiciInattivi.Add(o);
 
-        Debug.Log(CreateEnemies.nemiciInattivi.Count);
+        //TODO: controllare il tipo di nemico colpito fare punto o togliere punto
 
-        CreateEnemies.nemiciAttivi.Remove(o);
-        CreateEnemies.nemiciInattivi.Add(o);
+
+        Debug.Log("Nemici attivi: " + EnemiesManager.Instance.nemiciAttivi.Count);
+        Debug.Log("Nemici INattivi: " + EnemiesManager.Instance.nemiciInattivi.Count);
+
+    }
+
+    public void Mancato(GameObject o)
+    {
         o.SetActive(false);
-
-
+        EnemiesManager.Instance.nemiciAttivi.Remove(o);
+        EnemiesManager.Instance.nemiciInattivi.Add(o);
     }
 
     void Start()
     {
-        CreateEnemies.createEnemies();
+        EnemiesManager.Instance.CreateEnemies();
     }
 
     void Update()
-    {     
+    {
+
         resetXCamera();
 
-        playerPosition = player.transform.position;
+        playerPosition = playerController.transform.position;
 
-        CreateEnemies.manageEnemies();
+        EnemiesManager.Instance.ManageEnemies();
 
 
     }

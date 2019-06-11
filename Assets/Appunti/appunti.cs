@@ -10,7 +10,8 @@ public class appunti : MonoBehaviour
  * quando la lista dei nemici intattivi arriva a un certo numero, mescolali e rimettili in coda a quelli attivi con le 
  * coordinate spostate
  * 
- * 
+ * fare in modo che la spinta sia applicata al dick e il player segue
+ * nuovobox collider alle palle
  * 
  * 
  * 

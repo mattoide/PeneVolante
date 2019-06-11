@@ -5,10 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    public int accellerometerForceMultiplier = 500;
+    public int accellerometerForceMultiplier = 100;
     public float speed = 0.00f;
-    private double inizioInclinazione = -0.1;
-    private double fineInclinazione = 0.1;
+    private readonly double inizioInclinazione = -0.1;
+    private readonly double fineInclinazione = 0.1;
 
     private new Rigidbody rigidbody;
     private RigidbodyConstraints rigidbodyOriginalConstrains;
@@ -16,23 +16,11 @@ public class Player : MonoBehaviour
     private Vector3 initialPosition;
     private Vector3 deviceAcceleration;
 
-    private int direction = 0;
-
-
-
-
-    public static Vector3 position;
-
-    // Start is called before the first frame update
     void Start()
     {
-
         rigidbody = GetComponent<Rigidbody>();
         initialPosition = GetComponent<Transform>().position;
         rigidbodyOriginalConstrains = rigidbody.constraints;
-
-
-
     }
 
 
@@ -41,7 +29,6 @@ public class Player : MonoBehaviour
     {
         this.handleTouch();
         deviceAcceleration = Input.acceleration;
-       
     }
 
     void FixedUpdate()
@@ -81,6 +68,7 @@ public class Player : MonoBehaviour
         if (isRightAccellerated())
         {
             rigidbody.constraints = rigidbodyOriginalConstrains;
+
             if (isGoingRight() && canGoRight())
                 rigidbody.AddForce(deviceAcceleration.x * accellerometerForceMultiplier, 0, 0, ForceMode.VelocityChange);
             else if (isGoingLeft() && canGoLeft())
@@ -110,8 +98,5 @@ public class Player : MonoBehaviour
         return deviceAcceleration.x > 0;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        GameManager.Colpito(other.gameObject);
-    }
+
 }

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LostEnemiesManager : MonoBehaviour
+public class LostEnemiesManager : Singleton<LostEnemiesManager>
 {
     private void OnTriggerEnter(Collider other)
     {
-        GameManager.Colpito(other.gameObject);
-        Debug.Log("colpitooooooo mutooo");
+        print("enemimanager prima del dio");
+        if (other.tag == "LostEnemyManager")
+            return;
+        
+        GameManager.Instance.Colpito(other.gameObject);
     }
 }
