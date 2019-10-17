@@ -61,12 +61,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Appunti\appunti.cs" />
-    <Compile Include="Assets\Dick.cs" />
-    <Compile Include="Assets\GameManager.cs" />
-    <Compile Include="Assets\LostEnemiesManager.cs" />
-    <Compile Include="Assets\Nemico.cs" />
-    <Compile Include="Assets\Script\Controller\Player.cs" />
-    <Compile Include="Assets\Script\EnemiesManager.cs" />
+    <Compile Include="Assets\Script\Managers\EnemiesManager.cs" />
+    <Compile Include="Assets\Script\Managers\GameManager.cs" />
+    <Compile Include="Assets\Script\Managers\LostEnemiesManager.cs" />
+    <Compile Include="Assets\Script\Nemici\Nemico.cs" />
+    <Compile Include="Assets\Script\Player\Dick.cs" />
+    <Compile Include="Assets\Script\Player\Player.cs" />
     <Compile Include="Assets\Script\Singleton.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/Matto/Documents/UnityProjects/PeneVolante/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
